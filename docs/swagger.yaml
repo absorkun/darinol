@@ -4,7 +4,11 @@ definitions:
       email:
         type: string
       password:
+        minLength: 6
         type: string
+    required:
+    - email
+    - password
     type: object
   auth.RegisterDto:
     properties:
@@ -13,9 +17,13 @@ definitions:
       id:
         type: integer
       password:
+        minLength: 6
         type: string
       role:
         type: string
+    required:
+    - email
+    - password
     type: object
   response.SuccessStruct:
     properties:
@@ -26,28 +34,40 @@ definitions:
   todo.TodoCreateDto:
     properties:
       description:
+        maxLength: 500
         type: string
       finished:
         type: boolean
       id:
         type: integer
       title:
+        maxLength: 200
+        minLength: 4
         type: string
       user_id:
         type: integer
+    required:
+    - title
+    - user_id
     type: object
   todo.TodoUpdateDto:
     properties:
       description:
+        maxLength: 500
         type: string
       finished:
         type: boolean
       id:
         type: integer
       title:
+        maxLength: 200
+        minLength: 4
         type: string
       user_id:
         type: integer
+    required:
+    - title
+    - user_id
     type: object
   user.UserCreateDto:
     properties:
@@ -56,9 +76,13 @@ definitions:
       id:
         type: integer
       password:
+        minLength: 6
         type: string
       role:
         type: string
+    required:
+    - email
+    - password
     type: object
   user.UserUpdateDto:
     properties:
@@ -67,9 +91,13 @@ definitions:
       id:
         type: integer
       password:
+        minLength: 6
         type: string
       role:
         type: string
+    required:
+    - email
+    - password
     type: object
 info:
   contact: {}

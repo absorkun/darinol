@@ -430,17 +430,26 @@ const docTemplate = `{
     "definitions": {
         "auth.LoginDto": {
             "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
             "properties": {
                 "email": {
                     "type": "string"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 6
                 }
             }
         },
         "auth.RegisterDto": {
             "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
             "properties": {
                 "email": {
                     "type": "string"
@@ -449,7 +458,8 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 6
                 },
                 "role": {
                     "type": "string"
@@ -467,9 +477,14 @@ const docTemplate = `{
         },
         "todo.TodoCreateDto": {
             "type": "object",
+            "required": [
+                "title",
+                "user_id"
+            ],
             "properties": {
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 500
                 },
                 "finished": {
                     "type": "boolean"
@@ -478,7 +493,9 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "title": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 4
                 },
                 "user_id": {
                     "type": "integer"
@@ -487,9 +504,14 @@ const docTemplate = `{
         },
         "todo.TodoUpdateDto": {
             "type": "object",
+            "required": [
+                "title",
+                "user_id"
+            ],
             "properties": {
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 500
                 },
                 "finished": {
                     "type": "boolean"
@@ -498,7 +520,9 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "title": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 4
                 },
                 "user_id": {
                     "type": "integer"
@@ -507,6 +531,10 @@ const docTemplate = `{
         },
         "user.UserCreateDto": {
             "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
             "properties": {
                 "email": {
                     "type": "string"
@@ -515,7 +543,8 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 6
                 },
                 "role": {
                     "type": "string"
@@ -524,6 +553,10 @@ const docTemplate = `{
         },
         "user.UserUpdateDto": {
             "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
             "properties": {
                 "email": {
                     "type": "string"
@@ -532,7 +565,8 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 6
                 },
                 "role": {
                     "type": "string"

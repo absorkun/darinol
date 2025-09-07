@@ -11,17 +11,32 @@ import (
 	"github.com/absorkun/darinol/temporary/swagger"
 	"github.com/absorkun/darinol/todo"
 	"github.com/absorkun/darinol/user"
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/cors"
 	_ "github.com/joho/godotenv/autoload"
 )
+
+type structValidator struct {
+	validate *validator.Validate
+}
+
+func (v *structValidator) Validate(out any) error {
+	v.validate.RegisterValidation("role", func(fl validator.FieldLevel) bool {
+		var role = fl.Field().String()
+		return role == "user" || role == "admin"
+	})
+	return v.validate.Struct(out)
+}
 
 // @securityDefinitions.apikey ApiKeyAuth
 // @in
 // @name Authorization
 func main() {
 	var db = database.New()
-	var app = fiber.New()
+	var app = fiber.New(fiber.Config{
+		StructValidator: &structValidator{validate: validator.New()},
+	})
 
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"},

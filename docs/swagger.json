@@ -419,17 +419,26 @@
     "definitions": {
         "auth.LoginDto": {
             "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
             "properties": {
                 "email": {
                     "type": "string"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 6
                 }
             }
         },
         "auth.RegisterDto": {
             "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
             "properties": {
                 "email": {
                     "type": "string"
@@ -438,7 +447,8 @@
                     "type": "integer"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 6
                 },
                 "role": {
                     "type": "string"
@@ -456,9 +466,14 @@
         },
         "todo.TodoCreateDto": {
             "type": "object",
+            "required": [
+                "title",
+                "user_id"
+            ],
             "properties": {
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 500
                 },
                 "finished": {
                     "type": "boolean"
@@ -467,7 +482,9 @@
                     "type": "integer"
                 },
                 "title": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 4
                 },
                 "user_id": {
                     "type": "integer"
@@ -476,9 +493,14 @@
         },
         "todo.TodoUpdateDto": {
             "type": "object",
+            "required": [
+                "title",
+                "user_id"
+            ],
             "properties": {
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 500
                 },
                 "finished": {
                     "type": "boolean"
@@ -487,7 +509,9 @@
                     "type": "integer"
                 },
                 "title": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 4
                 },
                 "user_id": {
                     "type": "integer"
@@ -496,6 +520,10 @@
         },
         "user.UserCreateDto": {
             "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
             "properties": {
                 "email": {
                     "type": "string"
@@ -504,7 +532,8 @@
                     "type": "integer"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 6
                 },
                 "role": {
                     "type": "string"
@@ -513,6 +542,10 @@
         },
         "user.UserUpdateDto": {
             "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
             "properties": {
                 "email": {
                     "type": "string"
@@ -521,7 +554,8 @@
                     "type": "integer"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 6
                 },
                 "role": {
                     "type": "string"

@@ -18,17 +18,17 @@ type TodoGetDto struct {
 }
 
 type TodoCreateDto struct {
-	Id          uint   `json:"id,omitempty"`
-	Title       string `json:"title"`
-	Description string `json:"description,omitempty"`
-	Finished    bool   `json:"finished,omitempty"`
-	UserId      uint   `json:"user_id"`
+	Id          uint   `json:"id,omitempty" form:"id,omitempty" validate:"number"`
+	Title       string `json:"title" form:"title" validate:"required,min=4,max=200"`
+	Description string `json:"description,omitempty" form:"description,omitempty" validate:"max=500"`
+	Finished    bool   `json:"finished,omitempty" form:"finished,omitempty" validate:"boolean"`
+	UserId      uint   `json:"user_id" form:"user_id" validate:"required,number"`
 }
 
 type TodoUpdateDto struct {
-	Id          uint   `json:"id,omitempty"`
-	Title       string `json:"title,omitempty"`
-	Description string `json:"description,omitempty"`
-	Finished    bool   `json:"finished,omitempty"`
-	UserId      uint   `json:"user_id,omitempty"`
+	Id          uint   `json:"id,omitempty" form:"id,omitempty" validate:"number"`
+	Title       string `json:"title,omitempty" form:"title,omitempty" validate:"required,min=4,max=200"`
+	Description string `json:"description,omitempty" form:"description,omitempty" validate:"max=500"`
+	Finished    bool   `json:"finished,omitempty" form:"finished,omitempty" validate:"boolean"`
+	UserId      uint   `json:"user_id,omitempty" form:"user_id" validate:"required,number"`
 }
