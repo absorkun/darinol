@@ -1,0 +1,75 @@
+package main
+
+import (
+	"log"
+	"os"
+
+	"github.com/absorkun/darinol/auth"
+	"github.com/absorkun/darinol/database"
+	"github.com/absorkun/darinol/response"
+	jwtware "github.com/absorkun/darinol/temporary/jwt"
+	"github.com/absorkun/darinol/temporary/swagger"
+	"github.com/absorkun/darinol/todo"
+	"github.com/absorkun/darinol/user"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/cors"
+	_ "github.com/joho/godotenv/autoload"
+)
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in
+// @name Authorization
+func main() {
+	var db = database.New()
+	var app = fiber.New()
+
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
+		AllowHeaders: []string{"*"},
+	}))
+	app.Use(swagger.New(swagger.Config{
+		BasePath: "/",
+		Title:    "Swagger OpanAPI Documentation | darinol",
+		FilePath: "./docs/swagger.json",
+	}))
+
+	var v1 = app.Group("/api/v1")
+	v1.Get("/health", func(c fiber.Ctx) error {
+		return c.SendString("OK")
+	})
+
+	var usersV1 = app.Group("/api/v1/users")
+	var userHandler = user.NewHandler(db)
+	var userEndpoint = user.NewEndpoint(usersV1, *userHandler)
+	userEndpoint.Run()
+
+	var todoV1 = app.Group("/api/v1/todos")
+	todoV1.Use(jwtware.New(jwtware.Config{
+		SigningKey: jwtware.SigningKey{Key: []byte(os.Getenv("KEY"))},
+		ErrorHandler: func(c fiber.Ctx, err error) error {
+			return response.BadRequest(c, err.Error())
+		},
+	}))
+	var todoHandler = todo.NewHandler(db)
+	var todoEndpoint = todo.NewEndpoint(todoV1, *todoHandler)
+	todoEndpoint.Run()
+
+	var authV1 = app.Group("/api/v1/auth")
+	var authHandler = auth.NewHandler(db)
+	var authEndpoint = auth.NewEndpoint(authV1, *authHandler)
+	authEndpoint.Run()
+
+	var port = os.Getenv("PORT")
+	if port == "" {
+		port = "80"
+	}
+	var host = os.Getenv("HOST")
+	if host == "" {
+		host = "0.0.0.0"
+	}
+	if err := app.Listen(host + ":" + port); err != nil {
+		log.Fatal(err.Error())
+	}
+
+}

@@ -1,0 +1,538 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/api/v1/auth/login": {
+            "post": {
+                "description": "Login",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login",
+                "parameters": [
+                    {
+                        "description": "Info Auth Login info",
+                        "name": "Auth",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/auth.LoginDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.SuccessStruct"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/register": {
+            "post": {
+                "description": "Register",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register",
+                "parameters": [
+                    {
+                        "description": "Info Auth Register info",
+                        "name": "Auth",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/auth.RegisterDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/response.SuccessStruct"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/todos": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Fetch All",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Todo"
+                ],
+                "summary": "Fetch All",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.SuccessStruct"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Create",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Todo"
+                ],
+                "summary": "Create",
+                "parameters": [
+                    {
+                        "description": "Input todo info",
+                        "name": "todo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/todo.TodoCreateDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/response.SuccessStruct"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/todos/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Fetch By Id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Todo"
+                ],
+                "summary": "Fetch By Id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Todo Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.SuccessStruct"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Update",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Todo"
+                ],
+                "summary": "Update",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Todo Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Input todo info",
+                        "name": "todo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/todo.TodoUpdateDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "$ref": "#/definitions/response.SuccessStruct"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Delete",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Todo"
+                ],
+                "summary": "Delete",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Todo Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "$ref": "#/definitions/response.SuccessStruct"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/users": {
+            "get": {
+                "description": "Fetch all",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Fetch all",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.SuccessStruct"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Create",
+                "parameters": [
+                    {
+                        "description": "Input user info",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.UserCreateDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/response.SuccessStruct"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/users/{id}": {
+            "get": {
+                "description": "Fetch By Id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Fetch By Id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.SuccessStruct"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Input user info",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.UserUpdateDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "$ref": "#/definitions/response.SuccessStruct"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Delete",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "$ref": "#/definitions/response.SuccessStruct"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "auth.LoginDto": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "auth.RegisterDto": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.SuccessStruct": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "todo.TodoCreateDto": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "finished": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "todo.TodoUpdateDto": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "finished": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "user.UserCreateDto": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                }
+            }
+        },
+        "user.UserUpdateDto": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization"
+        }
+    }
+}

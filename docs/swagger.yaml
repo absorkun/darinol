@@ -1,0 +1,345 @@
+definitions:
+  auth.LoginDto:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  auth.RegisterDto:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      role:
+        type: string
+    type: object
+  response.SuccessStruct:
+    properties:
+      data: {}
+      success:
+        type: boolean
+    type: object
+  todo.TodoCreateDto:
+    properties:
+      description:
+        type: string
+      finished:
+        type: boolean
+      id:
+        type: integer
+      title:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  todo.TodoUpdateDto:
+    properties:
+      description:
+        type: string
+      finished:
+        type: boolean
+      id:
+        type: integer
+      title:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  user.UserCreateDto:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      role:
+        type: string
+    type: object
+  user.UserUpdateDto:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      role:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: Info Auth Login info
+        in: body
+        name: Auth
+        required: true
+        schema:
+          $ref: '#/definitions/auth.LoginDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.SuccessStruct'
+      summary: Login
+      tags:
+      - Auth
+  /api/v1/auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register
+      parameters:
+      - description: Info Auth Register info
+        in: body
+        name: Auth
+        required: true
+        schema:
+          $ref: '#/definitions/auth.RegisterDto'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.SuccessStruct'
+      summary: Register
+      tags:
+      - Auth
+  /api/v1/todos:
+    get:
+      consumes:
+      - application/json
+      description: Fetch All
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.SuccessStruct'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Fetch All
+      tags:
+      - Todo
+    post:
+      consumes:
+      - application/json
+      description: Create
+      parameters:
+      - description: Input todo info
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/todo.TodoCreateDto'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.SuccessStruct'
+      security:
+      - ApiKeyAuth: []
+      summary: Create
+      tags:
+      - Todo
+  /api/v1/todos/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete
+      parameters:
+      - description: Todo Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/response.SuccessStruct'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete
+      tags:
+      - Todo
+    get:
+      consumes:
+      - application/json
+      description: Fetch By Id
+      parameters:
+      - description: Todo Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.SuccessStruct'
+      security:
+      - ApiKeyAuth: []
+      summary: Fetch By Id
+      tags:
+      - Todo
+    put:
+      consumes:
+      - application/json
+      description: Update
+      parameters:
+      - description: Todo Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Input todo info
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/todo.TodoUpdateDto'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/response.SuccessStruct'
+      security:
+      - ApiKeyAuth: []
+      summary: Update
+      tags:
+      - Todo
+  /api/v1/users:
+    get:
+      consumes:
+      - application/json
+      description: Fetch all
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.SuccessStruct'
+            type: array
+      summary: Fetch all
+      tags:
+      - User
+    post:
+      consumes:
+      - application/json
+      description: Create
+      parameters:
+      - description: Input user info
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.UserCreateDto'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.SuccessStruct'
+      summary: Create
+      tags:
+      - User
+  /api/v1/users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete
+      parameters:
+      - description: User Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/response.SuccessStruct'
+      summary: Delete
+      tags:
+      - User
+    get:
+      consumes:
+      - application/json
+      description: Fetch By Id
+      parameters:
+      - description: User Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.SuccessStruct'
+      summary: Fetch By Id
+      tags:
+      - User
+    put:
+      consumes:
+      - application/json
+      description: Update
+      parameters:
+      - description: User Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Input user info
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.UserUpdateDto'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/response.SuccessStruct'
+      summary: Update
+      tags:
+      - User
+securityDefinitions:
+  ApiKeyAuth:
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
