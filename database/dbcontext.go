@@ -1,21 +1,30 @@
 package database
 
 import (
+	"fmt"
 	"log"
 	"os"
 
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
 
 func New() *gorm.DB {
-	var dsn = os.Getenv("DATABASE_URI")
-	if dsn == "" {
-		dsn = "user:pass@tcp(host:port)/db"
-	}
-
-	var db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+	var (
+		user     = os.Getenv("POSTGRES_USER")
+		password = os.Getenv("POSTGRES_PASSWORD")
+		dbname   = os.Getenv("POSTGRES_DBNAME")
+		host     = os.Getenv("POSTGRES_HOST")
+		port     = os.Getenv("POSTGRES_PORT")
+		sslmode  = os.Getenv("POSTGRES_SSLMODE")
+		timezone = os.Getenv("POSTGRES_TIMEZONE")
+	)
+	var dsn = fmt.Sprintf(
+		"user=%s password%s dbname=%s host%s port=%s sslmode=%s TimeZone=%s",
+		user, password, dbname, host, port, sslmode, timezone,
+	)
+	var db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
 	if err != nil {
