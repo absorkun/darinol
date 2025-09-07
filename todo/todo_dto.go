@@ -12,7 +12,7 @@ type TodoGetDto struct {
 	Description string     `json:"description"`
 	Finished    bool       `json:"finished"`
 	UserId      uint       `json:"user_id"`
-	User        model.User `json:"user"`
+	User        model.User `json:"-"`
 	CreatedAt   time.Time  `json:"created_at"`
 	UpdatedAt   time.Time  `json:"updated_at"`
 }
