@@ -2,13 +2,11 @@ package auth
 
 import (
 	"errors"
-	"os"
-	"time"
 
 	"github.com/absorkun/darinol/model"
 	"github.com/absorkun/darinol/response"
+	"github.com/absorkun/darinol/utils/jwtutils"
 	"github.com/gofiber/fiber/v3"
-	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -50,14 +48,7 @@ func (h *handler) Login(c fiber.Ctx) error {
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(dto.Password)); err != nil {
 		return response.BadRequest(c, "Password is invalid")
 	}
-
-	var claims = jwt.MapClaims{
-		"sub": user.Id,
-		"exp": time.Now().Add(time.Minute * 10).Unix(),
-	}
-	var jwt = jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
-	t, err := jwt.SignedString([]byte(os.Getenv("KEY")))
+	t, err := jwtutils.GenerateToken(user.Id)
 	if err != nil {
 		return response.InternalServerError(c, err.Error())
 	}
@@ -99,4 +90,17 @@ func (h *handler) Register(c fiber.Ctx) error {
 	}
 
 	return response.Created(c, dto)
+}
+
+// @Summary Session
+// @Description Session
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.SuccessStruct
+// @Security ApiKeyAuth
+// @Router /api/v1/auth/session [get]
+func (h *handler) Session(c fiber.Ctx) error {
+	var data = jwtutils.VerifyToken(c)
+	return response.Ok(c, data)
 }

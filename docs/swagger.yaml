@@ -2,6 +2,7 @@ definitions:
   auth.LoginDto:
     properties:
       email:
+        maxLength: 100
         type: string
       password:
         minLength: 6
@@ -13,6 +14,7 @@ definitions:
   auth.RegisterDto:
     properties:
       email:
+        maxLength: 100
         type: string
       id:
         type: integer
@@ -72,6 +74,7 @@ definitions:
   user.UserCreateDto:
     properties:
       email:
+        maxLength: 100
         type: string
       id:
         type: integer
@@ -87,6 +90,7 @@ definitions:
   user.UserUpdateDto:
     properties:
       email:
+        maxLength: 100
         type: string
       id:
         type: integer
@@ -144,6 +148,23 @@ paths:
           schema:
             $ref: '#/definitions/response.SuccessStruct'
       summary: Register
+      tags:
+      - Auth
+  /api/v1/auth/session:
+    get:
+      consumes:
+      - application/json
+      description: Session
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.SuccessStruct'
+      security:
+      - ApiKeyAuth: []
+      summary: Session
       tags:
       - Auth
   /api/v1/todos:
@@ -368,6 +389,8 @@ paths:
       - User
 securityDefinitions:
   ApiKeyAuth:
+    description: 'Format input: Bearer (access_token)'
+    in: header
     name: Authorization
     type: apiKey
 swagger: "2.0"

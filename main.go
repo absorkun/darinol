@@ -6,8 +6,6 @@ import (
 
 	"github.com/absorkun/darinol/auth"
 	"github.com/absorkun/darinol/database"
-	"github.com/absorkun/darinol/response"
-	jwtware "github.com/absorkun/darinol/temporary/jwt"
 	"github.com/absorkun/darinol/temporary/swagger"
 	"github.com/absorkun/darinol/todo"
 	"github.com/absorkun/darinol/user"
@@ -30,8 +28,9 @@ func (v *structValidator) Validate(out any) error {
 }
 
 // @securityDefinitions.apikey ApiKeyAuth
-// @in
+// @in header
 // @name Authorization
+// @description Format input: Bearer (access_token)
 func main() {
 	var db = database.New()
 	var app = fiber.New(fiber.Config{
@@ -48,9 +47,10 @@ func main() {
 		Title:    "Swagger OpanAPI Documentation | darinol",
 		FilePath: "./docs/swagger.json",
 	}))
-
-	var v1 = app.Group("/api/v1")
-	v1.Get("/health", func(c fiber.Ctx) error {
+	app.Get("", func(c fiber.Ctx) error {
+		return c.Redirect().To("/docs")
+	})
+	app.Get("/health", func(c fiber.Ctx) error {
 		return c.SendString("OK")
 	})
 
@@ -60,12 +60,6 @@ func main() {
 	userEndpoint.Run()
 
 	var todoV1 = app.Group("/api/v1/todos")
-	todoV1.Use(jwtware.New(jwtware.Config{
-		SigningKey: jwtware.SigningKey{Key: []byte(os.Getenv("KEY"))},
-		ErrorHandler: func(c fiber.Ctx, err error) error {
-			return response.BadRequest(c, err.Error())
-		},
-	}))
 	var todoHandler = todo.NewHandler(db)
 	var todoEndpoint = todo.NewEndpoint(todoV1, *todoHandler)
 	todoEndpoint.Run()
