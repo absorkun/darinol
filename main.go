@@ -53,6 +53,11 @@ func main() {
 	app.Get("/health", func(c fiber.Ctx) error {
 		return c.SendString("OK")
 	})
+	app.Post("/clear-statement", func(c fiber.Ctx) error {
+		sqlDB, _ := db.DB()
+		sqlDB.Exec(`DEALLOCATE ALL`)
+		return c.SendStatus(200)
+	})
 
 	var usersV1 = app.Group("/api/v1/users")
 	var userHandler = user.NewHandler(db)

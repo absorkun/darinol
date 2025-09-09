@@ -21,7 +21,7 @@ func New() *gorm.DB {
 		timezone = os.Getenv("POSTGRES_TIMEZONE")
 	)
 	var dsn = fmt.Sprintf(
-		"user=%s password=%s dbname=%s host=%s port=%s sslmode=%s TimeZone=%s statement_cache_mode=auto",
+		"user=%s password=%s dbname=%s host=%s port=%s sslmode=%s TimeZone=%s statement_cache_mode=describe",
 		user, password, dbname, host, port, sslmode, timezone,
 	)
 	var db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
