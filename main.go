@@ -22,7 +22,7 @@ type structValidator struct {
 func (v *structValidator) Validate(out any) error {
 	v.validate.RegisterValidation("role", func(fl validator.FieldLevel) bool {
 		var role = fl.Field().String()
-		return role == "user" || role == "admin"
+		return role == "user" || role == "admin" || role == ""
 	})
 	return v.validate.Struct(out)
 }
