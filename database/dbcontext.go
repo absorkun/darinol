@@ -5,9 +5,9 @@ import (
 	"log"
 	"os"
 
+	config "github.com/absorkun/darinol/config/database"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 )
 
 func New() *gorm.DB {
@@ -24,9 +24,7 @@ func New() *gorm.DB {
 		"user=%s password=%s dbname=%s host=%s port=%s sslmode=%s TimeZone=%s statement_cache_mode=describe",
 		user, password, dbname, host, port, sslmode, timezone,
 	)
-	var db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Info),
-	})
+	var db, err = gorm.Open(postgres.Open(dsn), config.DbConfig())
 	if err != nil {
 		log.Fatal(err.Error())
 	}
