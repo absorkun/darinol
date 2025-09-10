@@ -82,10 +82,7 @@ func main() {
 	if host == "" {
 		host = "0.0.0.0"
 	}
-	if err := app.Listen(host+":"+port, fiber.ListenConfig{
-		EnablePrefork:         true,
-		DisableStartupMessage: true,
-	}); err != nil {
+	if err := app.Listen(host + ":" + port); err != nil {
 		log.Fatal(err.Error())
 	}
 
